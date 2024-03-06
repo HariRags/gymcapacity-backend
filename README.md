@@ -1,9 +1,7 @@
-# solved two issues
-1.Password restrictions are removed.
-2.Welcome page cannot be accessed without login .
+"1.password restrictions removed 2.welcome page cannot be
+ accessed without login 3. added list of members in the gym 4.added a way to delete members when password is entered 5
+. added minus buttons for exiting to make it look more like figma"
 
-# how to test
-Clone the repository local and runserver
-http://127.0.0.1:8000/gym/login-page/ - type this url from then onward you register and everything works fine
 
-contact me if there is any issue.
+
+
