@@ -7,6 +7,10 @@ from .models import UserProfile
 from .serializers import UserSerializer, UserProfileSerializer
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from django.http import HttpResponse
+from django.template import loader
+from django.contrib.auth import get_user_model
+
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -48,8 +52,47 @@ def register_view(request):
 
 def welcome_view(request):
     if request.user.is_authenticated:
-        return render(request, 'welcome.html')
+        user = get_user_model()
+        mymembers =user.objects.all().values()
+        template = loader.get_template('welcome.html')
+        context = {
+                  'mymembers': mymembers,
+                 }
+        return HttpResponse(template.render(context, request))
     return redirect('login')
+
+def exit_view(request):
+    if request.user.is_authenticated:
+        user = get_user_model()
+        mymembers =user.objects.all().values()
+        template = loader.get_template('exit.html')
+        context = {
+                  'mymembers': mymembers,
+                 }
+        return HttpResponse(template.render(context, request))
+    return render(request, 'exit.html')
+
+def details(request, id):
+    user = get_user_model()
+    mymembers =user.objects.get(id=id)
+    template = loader.get_template('delete.html')
+    context = {
+                  'mymembers': mymembers,
+                 }
+    if request.method == 'POST':
+        password = request.POST.get('password')
+        user = authenticate(username=request.user.username, password=password)
+        if user is not None:
+            # Password is correct, delete the user
+            user.delete()
+            return redirect('login')
+        else:
+            return redirect('welcome')
+
+    return HttpResponse(template.render(context, request))
+    
+
+
 
 def logout_view(request):
     logout(request)
