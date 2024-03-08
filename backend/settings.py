@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'gym_app',
     'customuser',
-    "django_rename_app"
 ]
 
 MIDDLEWARE = [

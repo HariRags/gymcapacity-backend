@@ -59,7 +59,8 @@ def home_view(request):
 def welcome_view(request):
     
         user = get_user_model()
-        mymembers =user.objects.all().values()
+        if user.timestamp is not None:
+            mymembers =user.objects.filter().values()
         template = loader.get_template('welcome.html')
         context = {
                   'mymembers': mymembers,
