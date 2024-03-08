@@ -1,7 +1,7 @@
 # gym_app/models.py
 from django.db import models
 from django.contrib.auth.models import User
-from customuser.models import CustomUser
+from customuser.models import CustomUser    #custom user with timestamp field
 
 
 class UserProfile(models.Model):

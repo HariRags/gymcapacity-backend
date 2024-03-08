@@ -58,40 +58,41 @@ def home_view(request):
 
 def welcome_view(request):
     
-        user = get_user_model()
-        if user.timestamp is not None:
+        user = get_user_model()  #get all users
+        if user.timestamp is not None:   #check if timestamp is not null
             mymembers =user.objects.filter().values()
         template = loader.get_template('welcome.html')
-        context = {
+        context = {                                        #pass users to the html page to display the list
                   'mymembers': mymembers,
                  }
         return HttpResponse(template.render(context, request))
     
 
 def exit_view(request): #this is to show delete buttons in the memebers list
-        user = get_user_model()
-        mymembers =user.objects.all().values()
+        user = get_user_model()      #get all users
+        if user.timestamp is not None:        #check if timestamp is not null
+            mymembers =user.objects.filter().values()
         template = loader.get_template('exit.html')
-        context = {
+        context = {                                        #pass users to the html page to display the list
                   'mymembers': mymembers,
                  }
         return HttpResponse(template.render(context, request))
 
 def deletes(request, id): #this is to delete a particular member
     user = get_user_model()
-    mymembers =user.objects.get(id=id)
+    mymembers =user.objects.get(id=id)     
     template = loader.get_template('delete.html')
     context = {
                   'mymembers': mymembers,
                  }
-    if request.method == 'POST':
+    if request.method == 'POST':    #get password
         password = request.POST.get('password')
-        User = authenticate(username=mymembers.username, password=password)
+        User = authenticate(username=mymembers.username, password=password)   #check if the password matches
         if User is not None:
             # Password is correct, delete the user
             User.delete()
             return redirect('home')
-        else:
+        else:                    #if it doesnt match then redirect to the list
             return redirect('welcome')
     return HttpResponse(template.render(context, request))
 
