@@ -1,4 +1,4 @@
-# gym_auth/urls.py
+# gym_app/urls.py
 from django.urls import path
 from .views import (
     register, user_login, welcome,

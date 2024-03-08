@@ -38,8 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'gym_auth',
-    'customuser'
+    'gym_app',
+    'customuser',
+    "django_rename_app"
 ]
 
 MIDDLEWARE = [
