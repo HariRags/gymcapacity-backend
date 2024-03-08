@@ -15,15 +15,17 @@ from django.contrib.auth import get_user_model
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def register(request):
-    username = request.data.get('username')
+    username = request.data.get('username') #get username&password
     password = request.data.get('password')
 
-    user = User.objects.create_user(username=username, password=password)
-    user_profile = UserProfile.objects.create(user=user)
-
-    serializer = UserProfileSerializer(user_profile)
-   
-    return redirect('welcome')
+    user = authenticate(request, username=username, password=password) #check if user exists in database or not
+    if user is not None:
+         return redirect('welcome') #if user exists then directly redirect
+    else:
+        user = User.objects.create_user(username=username, password=password)  #if user does not exist in database then create that user
+        user_profile = UserProfile.objects.create(user=user)
+        serializer = UserProfileSerializer(user_profile)
+        return redirect('welcome')
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -56,7 +58,7 @@ def home_view(request):
 def welcome_view(request):
     
         user = get_user_model()
-        mymembers =user.objects.all().values()
+        mymembers =user.objects.get(timestamp!=NULL).values()
         template = loader.get_template('welcome.html')
         context = {
                   'mymembers': mymembers,
@@ -64,7 +66,7 @@ def welcome_view(request):
         return HttpResponse(template.render(context, request))
     
 
-def exit_view(request): #this is to show the html page of the exit pop-up of a particular user
+def exit_view(request): #this is to show delete buttons in the memebers list
         user = get_user_model()
         mymembers =user.objects.all().values()
         template = loader.get_template('exit.html')
@@ -73,7 +75,7 @@ def exit_view(request): #this is to show the html page of the exit pop-up of a p
                  }
         return HttpResponse(template.render(context, request))
 
-def deletes(request, id):
+def deletes(request, id): #this is to delete a particular member
     user = get_user_model()
     mymembers =user.objects.get(id=id)
     template = loader.get_template('delete.html')

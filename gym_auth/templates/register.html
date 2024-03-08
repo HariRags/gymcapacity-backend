@@ -7,22 +7,22 @@
     <title>Register</title>
 </head>
 <body>
-    <h2>Register</h2>
+    <h2>Enter</h2>
     <form action="{% url 'register_api' %}" method="post">
         {% csrf_token %}
         <label>
-            Username:
+            Name:
             <input type="text" name="username" required>
         </label>
         <br>
         <label>
-            Password:
+            Roll number:
             <input type="password" name="password" required>
         </label>
         <br>
-        <button type="submit">Register</button>
+        <button type="submit">Enter</button>
     </form>
     <br>
-    <a href="{% url 'login' %}">Login</a>
+    
 </body>
 </html>
