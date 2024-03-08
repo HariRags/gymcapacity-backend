@@ -17,6 +17,7 @@ from django.contrib.auth import get_user_model
 def register(request):
     username = request.data.get('username') #get username&password
     password = request.data.get('password')
+    User = get_user_model()
 
     user = authenticate(request, username=username, password=password) #check if user exists in database or not
     if user is not None:
@@ -58,7 +59,7 @@ def home_view(request):
 def welcome_view(request):
     
         user = get_user_model()
-        mymembers =user.objects.get(timestamp!=NULL).values()
+        mymembers =user.objects.all().values()
         template = loader.get_template('welcome.html')
         context = {
                   'mymembers': mymembers,

@@ -6,7 +6,7 @@ from .models import UserProfile
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username','timestamp']
+        fields = ['id', 'username']
 
 class UserProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer()
