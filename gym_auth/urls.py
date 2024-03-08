@@ -2,7 +2,7 @@
 from django.urls import path
 from .views import (
     register, user_login, welcome,
-    login_view, register_view, welcome_view, logout_view,exit_view,details
+    login_view, register_view, welcome_view, logout_view,exit_view,deletes,home_view
 )
 
 urlpatterns = [
@@ -14,5 +14,6 @@ urlpatterns = [
     path('welcome-page/', welcome_view, name='welcome'),
     path('logout/', logout_view, name='logout'),
     path('welcome-page/exit/',exit_view, name='exit'),
-    path('welcome-page/exit/delete/<int:id>',details, name='delete'),
+    path('welcome-page/exit/delete/<int:id>',deletes, name='delete'),
+    path('home/',home_view, name='home')
 ]

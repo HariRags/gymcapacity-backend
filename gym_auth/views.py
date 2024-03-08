@@ -23,7 +23,7 @@ def register(request):
 
     serializer = UserProfileSerializer(user_profile)
    
-    return render(request, 'login.html')
+    return redirect('welcome')
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -50,8 +50,11 @@ def login_view(request):
 def register_view(request):
     return render(request, 'register.html')
 
+def home_view(request):
+    return render(request,'home.html')
+
 def welcome_view(request):
-    if request.user.is_authenticated:
+    
         user = get_user_model()
         mymembers =user.objects.all().values()
         template = loader.get_template('welcome.html')
@@ -59,10 +62,9 @@ def welcome_view(request):
                   'mymembers': mymembers,
                  }
         return HttpResponse(template.render(context, request))
-    return redirect('login')
+    
 
-def exit_view(request):
-    if request.user.is_authenticated:
+def exit_view(request): #this is to show the html page of the exit pop-up of a particular user
         user = get_user_model()
         mymembers =user.objects.all().values()
         template = loader.get_template('exit.html')
@@ -70,9 +72,8 @@ def exit_view(request):
                   'mymembers': mymembers,
                  }
         return HttpResponse(template.render(context, request))
-    return render(request, 'exit.html')
 
-def details(request, id):
+def deletes(request, id):
     user = get_user_model()
     mymembers =user.objects.get(id=id)
     template = loader.get_template('delete.html')
@@ -81,17 +82,15 @@ def details(request, id):
                  }
     if request.method == 'POST':
         password = request.POST.get('password')
-        user = authenticate(username=request.user.username, password=password)
-        if user is not None:
+        User = authenticate(username=mymembers.username, password=password)
+        if User is not None:
             # Password is correct, delete the user
-            user.delete()
-            return redirect('login')
+            User.delete()
+            return redirect('home')
         else:
             return redirect('welcome')
 
     return HttpResponse(template.render(context, request))
-    
-
 
 
 def logout_view(request):

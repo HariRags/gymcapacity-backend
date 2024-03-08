@@ -8,13 +8,14 @@
 </head>
 <body>
     <h2>Welcome to My Gym</h2>
-    <a href="{% url 'logout' %}">Logout</a>
+    
     <ul>
         {% for x in mymembers %}
           <li>{{ x.username }}</li>
         {% endfor %}
       </ul>
     <a href="exit">exit</a>
+    <p><a href="{% url 'register' %}">enter</a></p>
       
 
 </body>
