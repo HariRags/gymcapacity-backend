@@ -22,9 +22,9 @@
 </head>
 <body>
   <h2>Welcome to My Gym</h2>
-  <a href="{% url 'logout' %}">Logout</a>
+  <a href="{% url 'welcome' %}">List</a>
       {% for x in mymembers %}
-        <p><a href="delete/{{ x.id }}" class="circular-button">-</a>{{ x.username }}</p><br>
+        <p><a href="delete/{{ x.id }}" class="circular-button">-</a>{{ x.username }} {{ x.timestamp }}</p><br>
       {% endfor %}
 
 </body>

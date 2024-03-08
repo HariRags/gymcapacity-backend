@@ -92,9 +92,7 @@ def deletes(request, id): #this is to delete a particular member
             return redirect('home')
         else:
             return redirect('welcome')
-
     return HttpResponse(template.render(context, request))
-
 
 def logout_view(request):
     logout(request)
