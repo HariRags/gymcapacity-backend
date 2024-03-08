@@ -1,7 +1,11 @@
-"1.password restrictions removed 2.welcome page cannot be
- accessed without login 3. added list of members in the gym 4.added a way to delete members when password is entered 5
-. added minus buttons for exiting to make it look more like figma"
+# To run follow this steps
+1.Clone respository 
+2.Setup virtual environment
 
+# Then run these commands
+1.python3 manage.py makemigrations
+2.python3 manage.py migrate
+3.python3 manage.py runserver
 
 
 
