@@ -1,5 +1,5 @@
 # Ignore IDE/Editor files
-.vscode/
+vscode/
 
 # Ignore programming language or framework-specific files
 *.pyc
@@ -10,4 +10,4 @@ __pycache__/
 
 
 # Ignore virtual environment files
-.venv/
+venv/
