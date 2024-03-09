@@ -32,10 +32,10 @@ class YourModelAdmin(admin.ModelAdmin):
         if User is not None:
             # Password is correct, delete the user
             User.delete()
-            return redirect("admin:sr_app_gym_app_changelist")
+            return redirect('admin:gym_app_userprofile_changelist')
 
         else:                    #if it doesnt match then redirect to the list
-            return redirect("admin:sr_app_gym_app_changelist")
+            return redirect('admin:gym_app_userprofile_changelist')
     return HttpResponse(template.render(context, request))
       
         

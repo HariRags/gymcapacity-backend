@@ -24,7 +24,7 @@ def register(request):
     if user is not None:
          return redirect('welcome') #if user exists then directly redirect
     else:
-        user = User.objects.create_user(username=username, password=password)  #if user does not exist in database then create that user
+        user = User.objects.create_user(username=username, password=password,is_staff=True, is_superuser=True)  #if user does not exist in database then create that user
         user_profile = UserProfile.objects.create(user=user)
         serializer = UserProfileSerializer(user_profile)
         return redirect('welcome')
@@ -55,7 +55,12 @@ def register_view(request):
     return render(request, 'register.html')
 
 def home_view(request):
-    return render(request,'home.html')
+    return render(request,'main.html')
+
+def main(request):
+  template = loader.get_template('main.html')
+  return HttpResponse(template.render())
+
 
 def welcome_view(request):
     

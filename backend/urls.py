@@ -17,8 +17,10 @@ Including another URLconf
 # backend/urls.py
 from django.contrib import admin
 from django.urls import path, include
+from gym_app import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('gym/', include('gym_app.urls')),
+    path('', views.main, name='main'),
 ]
