@@ -5,19 +5,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome</title>
+    <!-- Add any additional head content here -->
 </head>
 <body>
+
+
     <h2>Welcome to My Gym</h2>
     
-    <ul>
-        {% for x in mymembers %}
-          <li>{{ x.username }} {{ x.timestamp}}</li>
-        {% endfor %}
-      </ul>
+    {% if mymembers %}
+        <ul>
+            {% for x in mymembers %}
+                <li>{{ x.username }} {{ x.timestamp }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>There are currently no members.</p>
+    {% endif %}
+
+    <!-- Feedback Form -->
+    <h3>Provide Feedback:</h3>
+    <form action="{% url 'feedback' %}" method="post">
+        {% csrf_token %}
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br>
+
+        <label for="roll">Roll Number:</label>
+        <input type="text" id="roll" name="roll" required><br>
+
+        <label for="description">Description:</label><br>
+        <textarea id="description" name="description" rows="4" cols="50" required></textarea><br>
+
+        <button type="submit">Submit Feedback</button>
+    </form>
+
+
+
+    <!-- Add any additional content here -->
+
     <a href="exit">exit</a>
     <p><a href="{% url 'register' %}">enter</a></p>
     <p><a href="{% url 'home' %}">home</a></p>
-      
-
 </body>
 </html>
+

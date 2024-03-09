@@ -5,11 +5,12 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.contrib.auth.models import User
 from .models import UserProfile
 from .serializers import UserSerializer, UserProfileSerializer
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404 
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from django.template import loader
 from django.contrib.auth import get_user_model
+from .models import Feedback
 
 
 @api_view(['POST'])
@@ -99,3 +100,27 @@ def deletes(request, id): #this is to delete a particular member
 def logout_view(request):
     logout(request)
     return redirect('login')
+
+
+
+def feedback(request):                   #creating object basically row with data name roll and description as column
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        roll = request.POST.get('roll')
+        description = request.POST.get('description')
+
+         # Save the feedback to the database
+        feedback_obj = Feedback.objects.create(name=name, roll=roll, description=description)
+
+        # Pass feedback details to the success page
+        return redirect('success', feedback_id=feedback_obj.id)
+
+   
+
+def success(request, feedback_id): #get_object_or_404 is a shortcut function that retrieves an object from the database or raises a 404 error if the object is not found.  
+    feedback_obj = get_object_or_404(Feedback, id=feedback_id)
+    return render(request, 'success.html', {'feedback': feedback_obj})
+
+
+
+
