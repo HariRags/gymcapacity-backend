@@ -11,6 +11,7 @@ from django.http import HttpResponse
 from django.template import loader
 from django.contrib.auth import get_user_model
 from .models import Feedback
+from django.utils import timezone
 
 
 @api_view(['POST'])
@@ -22,9 +23,10 @@ def register(request):
 
     user = authenticate(request, username=username, password=password) #check if user exists in database or not
     if user is not None:
-         return redirect('welcome') #if user exists then directly redirect
+         user.timestamp=timezone.now   #update new login time
+         return redirect('welcome')    #if user exists then directly redirect
     else:
-        user = User.objects.create_user(username=username, password=password,is_staff=True, is_superuser=True)  #if user does not exist in database then create that user
+        user = User.objects.create_user(username=username, password=password)  #if user does not exist in database then create that user
         user_profile = UserProfile.objects.create(user=user)
         serializer = UserProfileSerializer(user_profile)
         return redirect('welcome')
@@ -96,7 +98,7 @@ def deletes(request, id): #this is to delete a particular member
         User = authenticate(username=mymembers.username, password=password)   #check if the password matches
         if User is not None:
             # Password is correct, delete the user
-            User.delete()
+            User.timestamp= None
             return redirect('home')
         else:                    #if it doesnt match then redirect to the list
             return redirect('welcome')
