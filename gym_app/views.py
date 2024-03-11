@@ -14,7 +14,7 @@ from .models import Feedback
 from django.utils import timezone
 
 
-@api_view(['POST'])
+@api_view(['POST','PUT'])
 @permission_classes([AllowAny])
 def register(request):
     username = request.data.get('username') #get username&password
@@ -63,7 +63,7 @@ def main(request):
   template = loader.get_template('main.html')
   return HttpResponse(template.render())
 
-
+@api_view(['GET'])
 def welcome_view(request):
     
         user = get_user_model()  #get all users
@@ -75,7 +75,7 @@ def welcome_view(request):
                  }
         return HttpResponse(template.render(context, request))
     
-
+@api_view('GET')
 def exit_view(request): #this is to show delete buttons in the memebers list
         user = get_user_model()      #get all users
         if user.timestamp is not None:        #check if timestamp is not null
@@ -86,6 +86,7 @@ def exit_view(request): #this is to show delete buttons in the memebers list
                  }
         return HttpResponse(template.render(context, request))
 
+@api_view('POST')
 def deletes(request, id): #this is to delete a particular member
     user = get_user_model()
     mymembers =user.objects.get(id=id)     
