@@ -46,7 +46,7 @@ def register_api(request):
         if user is not None:
             user_profile=user
             serializer = UserProfileSerializer(user_profile)
-            return JsonResponse({'user':serializer.data})
+            return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             user = User.objects.create_user(username=username, password=password,is_staff=True, is_superuser=True)  #if user does not exist in database then create that user
             user_profile = UserProfile.objects.create(user=user)
@@ -77,18 +77,18 @@ def register_api(request):
   #  return render(request, 'login.html')
 
 @csrf_exempt
-def register_view(request):      
+def register_view(request):      #HTML
     return render(request, 'register.html')
 
 
-def home_view(request):          
+def home_view(request):          #HTML
     return render(request,'main.html')
 
-def main(request):               
+def main(request):               #HTML
     template = loader.get_template('main.html')
     return HttpResponse(template.render())
 
-@api_view(['GET'])
+@api_view(['GET'])                #HTML
 def welcome_view(request):           
 
     user = get_user_model()  #get all users
