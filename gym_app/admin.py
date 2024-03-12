@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate
 from django.http import HttpResponse
 from django.template import loader
 from django.contrib.auth import get_user_model
+from rest_framework.decorators import api_view
 
 
 class YourModelAdmin(admin.ModelAdmin):       
@@ -13,12 +14,15 @@ class YourModelAdmin(admin.ModelAdmin):
     return False                         #removing the ability to delete users via the admin page
   def has_change_permission(self, request, obj=None):
         return False
+  
   def get_urls(self):
         urls = super().get_urls()
         my_urls = [
             path("<int:pk>/exit/", self.admin_site.admin_view(self.deny_view)),
         ]
         return my_urls + urls
+  
+  @api_view(['DELETE'])
   def deny_view(self, request, pk):
     user = get_user_model()
     mymembers =user.objects.get(pk=pk)     
