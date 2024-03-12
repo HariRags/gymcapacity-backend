@@ -31,7 +31,8 @@ class YourModelAdmin(admin.ModelAdmin):
         User = authenticate(username=mymembers.username, password=password)   #check if the password matches
         if User is not None:
             # Password is correct, delete the user
-            User.user.timestamp= None
+            User.timestamp= None
+            User.save()
             return redirect('admin:gym_app_userprofile_changelist')
 
         else:                    #if it doesnt match then redirect to the list

@@ -24,6 +24,7 @@ def register(request):
     user = authenticate(request, username=username, password=password) #check if user exists in database or not
     if user is not None:
          user.timestamp=timezone.now   #update new login time
+         user.save()
          return redirect('welcome')    #if user exists then directly redirect
     else:
         user = User.objects.create_user(username=username, password=password)  #if user does not exist in database then create that user
@@ -75,7 +76,7 @@ def welcome_view(request):
                  }
         return HttpResponse(template.render(context, request))
     
-@api_view('GET')
+@api_view(['GET'])
 def exit_view(request): #this is to show delete buttons in the memebers list
         user = get_user_model()      #get all users
         if user.timestamp is not None:        #check if timestamp is not null
@@ -86,7 +87,7 @@ def exit_view(request): #this is to show delete buttons in the memebers list
                  }
         return HttpResponse(template.render(context, request))
 
-@api_view('POST')
+@api_view(['POST'])
 def deletes(request, id): #this is to delete a particular member
     user = get_user_model()
     mymembers =user.objects.get(id=id)     
