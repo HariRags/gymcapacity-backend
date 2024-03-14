@@ -1,7 +1,7 @@
 from django.db import models
 
 class UserProfile(models.Model):
-    username = models.CharField(max_length=150, blank=False,) # add unique=True --->delete previous same username data ---->migrate--->problem solved
+    username = models.CharField(max_length=150, blank=False,unique=True) 
     password = models.CharField(max_length=128, blank=False)
 
     def __str__(self):
