@@ -1,18 +1,18 @@
-# gym_app/models.py
 from django.db import models
-from django.contrib.auth.models import User
-from customuser.models import CustomUser    #custom user with timestamp field
-
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-    def __str__(self):
-        return f"{self.user.username} {self.user.timestamp}"
+    username = models.CharField(max_length=150, blank=False,) # add unique=True --->delete previous same username data ---->migrate--->problem solved
+    password = models.CharField(max_length=128, blank=False)
 
-class Feedback(models.Model):                #creatinag a model to save feedback form database
+    def __str__(self):
+        return self.username
+
+class Feedback(models.Model):
     name = models.CharField(max_length=255)
     roll = models.CharField(max_length=20)
     description = models.TextField()
+    feedback_type = models.CharField(max_length=20, choices=[('suggestion', 'Suggestion'), ('complaint', 'Complaint')], default='suggestion')
+
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
