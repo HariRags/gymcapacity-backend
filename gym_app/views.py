@@ -8,9 +8,7 @@ def register_view(request):
     username = request.data.get('username')
     password = request.data.get('password')
 
-    # Assuming you have logic here to create a new user profile
-    # You may want to perform validations and checks here
-
+   
     UserProfile.objects.create(username=username, password=password)
     
     return Response({'message': 'Registration successful'})
@@ -21,7 +19,7 @@ def list_view(request):
     serializer = UserProfileSerializer(users, many=True)
     return Response(serializer.data)
 
-@api_view(['DELETE'])
+@api_view(['DELETE'])         # this is just a very basic code it needs to chaged  kanika - "finalizer this delete view"
 def delete_view(request, username):
     password = request.data.get('password')
     try:
