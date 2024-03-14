@@ -26,7 +26,8 @@ def register_view(request):
 
 @api_view(['GET'])
 def list_view(request):
-    users = UserProfile.objects.all()
+    user=get_user_model()
+    users = user.objects.all()
     # Create a list of dictionaries containing only usernames
     usernames = [{'username': user.username} for user in users]
     return Response(usernames)
