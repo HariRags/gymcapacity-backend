@@ -8,7 +8,6 @@ def register_view(request):
     username = request.data.get('username')
     password = request.data.get('password')
 
-   
     UserProfile.objects.create(username=username, password=password)
     
     return Response({'message': 'Registration successful'})
@@ -16,10 +15,11 @@ def register_view(request):
 @api_view(['GET'])
 def list_view(request):
     users = UserProfile.objects.all()
-    serializer = UserProfileSerializer(users, many=True)
-    return Response(serializer.data)
+    # Create a list of dictionaries containing only usernames
+    usernames = [{'username': user.username} for user in users]
+    return Response(usernames)
 
-@api_view(['DELETE'])         # this is just a very basic code it needs to chaged  kanika - "finalizer this delete view"
+@api_view(['DELETE'])
 def delete_view(request, username):
     password = request.data.get('password')
     try:
