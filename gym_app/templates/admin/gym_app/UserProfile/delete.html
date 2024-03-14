@@ -1,0 +1,22 @@
+<!-- gym_app/templates/delete.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>delete</title>
+    </head>
+<body>
+  <h2>{{ mymembers.username }}</h2>
+  <form action="" method="post">
+    {% csrf_token %}
+    <label>
+      Password:
+      <input type="password" name="password" required>
+  </label>
+  <br>
+  <button type="submit">Delete</button>
+</form>
+<br>
+<hr>
+</body>

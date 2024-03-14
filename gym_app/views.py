@@ -99,7 +99,7 @@ def welcome_view(request):
                  }
     return HttpResponse(template.render(context, request))
     
-@api_view(['GET'])
+@api_view(['GET'])   #HTML
 def exit_view(request): #this is to show delete buttons in the memebers list
     user = get_user_model()      #get all users
 
@@ -110,7 +110,28 @@ def exit_view(request): #this is to show delete buttons in the memebers list
                  }
     return HttpResponse(template.render(context, request))
 
-def deletes(request, id): #this is to delete a particular member
+@api_view(['DELETE'])
+def delete_api(request,id):  #this is to delete a particular member
+    if request.method =='DELETE':
+        password=request.data.get('password')   #get password
+        if not password:
+            return Response({"error": "Password is required"}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            user=get_user_model()
+            mymember=user.objects.get(id=id)
+            User=authenticate(username=mymember.username, password=password)
+            if User is not None:
+                User.delete()   #if password is correct delete the user
+                return Response(status=status.HTTP_204_NO_CONTENT)
+            else:
+                return Response({"error": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
+        except user.DoesNotExist:
+            return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+    else:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+def deletes(request, id): #this is to delete a particular member   #HTML
     user = get_user_model()
     mymembers =user.objects.get(id=id)     
     template = loader.get_template('delete.html')
@@ -132,7 +153,7 @@ def deletes(request, id): #this is to delete a particular member
     logout(request)
     return redirect('login')
 
-def feedback(request):                   #creating object basically row with data name roll and description as column
+def feedback(request):                #HTML    #creating object basically row with data name roll and description as column
     if request.method == 'POST':
         name = request.POST.get('name')
         roll = request.POST.get('roll')

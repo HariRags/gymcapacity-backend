@@ -15,7 +15,7 @@
     {% if mymembers %}
         <ul>
             {% for x in mymembers %}
-                <li>{{ x.username }} {{ x.timestamp }}</li>
+                <li>{{ x.username }} {{ x.timestamp }} {{x.id}}</li>
             {% endfor %}
         </ul>
     {% else %}
