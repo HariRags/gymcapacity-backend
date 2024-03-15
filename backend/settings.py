@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'gym_app',
     'customuser',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -50,8 +51,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
-
+ORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  #add frontend(react) url to here
+   
+]
 ROOT_URLCONF = 'backend.urls'
 
 TEMPLATES = [

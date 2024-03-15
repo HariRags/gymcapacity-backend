@@ -1,16 +1,12 @@
-# gym_app/serializers.py
 from rest_framework import serializers
-from django.contrib.auth.models import User
-from .models import UserProfile
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['id', 'username','timestamp']
+from .models import UserProfile, Feedback
 
 class UserProfileSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
-
     class Meta:
         model = UserProfile
-        fields = ['user']
+        fields = '__all__'
+
+class FeedbackSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Feedback
+        fields = '__all__'

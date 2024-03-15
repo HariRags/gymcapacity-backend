@@ -22,5 +22,5 @@ from gym_app import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('gym/', include('gym_app.urls')),
-    path('', views.main, name='main'),
+    
 ]
