@@ -16,5 +16,4 @@ class FeedbackAdmin(admin.ModelAdmin):
     list_filter = ('feedback_type', 'timestamp')
 
 # Register User model with admin site
-admin.site.unregister(User)  # Unregister the default User model
-admin.site.register(User)  # Register the custom User model if needed
+admin.site.register(User)  
