@@ -1,53 +1,20 @@
 from django.contrib import admin
-from .models import UserProfile
-from django.urls import path
-from django.shortcuts import redirect
-from django.contrib.auth import authenticate
-from django.http import HttpResponse
-from django.template import loader
-from django.contrib.auth import get_user_model
-from rest_framework.decorators import api_view
+from .models import UserProfile, Feedback,User
 
+# Register UserProfile model with admin site
+@admin.register(UserProfile)
+class UserProfileAdmin(admin.ModelAdmin):
+    list_display = ('user', 'timestamp')
+    search_fields = ('user__username',)
+    list_filter = ('timestamp',)
 
-class YourModelAdmin(admin.ModelAdmin):       
-  def has_delete_permission(self, request, obj=None):
-    return False                         #removing the ability to delete users via the admin page
-  def has_change_permission(self, request, obj=None):
-        return False
-  
-  def get_urls(self):
-        urls = super().get_urls()
-        my_urls = [
-            path("<int:pk>/exit/", self.admin_site.admin_view(self.deny_view)),
-        ]
-        return my_urls + urls
-  
-  @api_view(['DELETE'])
-  def deny_view(self, request, pk):
-    user = get_user_model()
-    mymembers =user.objects.get(pk=pk)     
-    template = loader.get_template('delete.html')
-    context = {
-                  'mymembers': mymembers,
-                 }
-    if request.method == 'POST':    #get password
-        password = request.POST.get('password')
-        User = authenticate(username=mymembers.username, password=password)   #check if the password matches
-        if User is not None:
-            # Password is correct, delete the user
-            User.delete()
-            return redirect('admin:gym_app_userprofile_changelist')
+# Register Feedback model with admin site
+@admin.register(Feedback)
+class FeedbackAdmin(admin.ModelAdmin):
+    list_display = ('name', 'roll', 'feedback_type', 'timestamp')
+    search_fields = ('name', 'roll')
+    list_filter = ('feedback_type', 'timestamp')
 
-        else:                    #if it doesnt match then redirect to the list
-            return redirect('admin:gym_app_userprofile_changelist')
-    return HttpResponse(template.render(context, request))
-      
-        
-        
-
-
-
- 
-admin.site.register(UserProfile, YourModelAdmin)
-
-# Register your models here.
+# Register User model with admin site
+admin.site.unregister(User)  # Unregister the default User model
+admin.site.register(User)  # Register the custom User model if needed

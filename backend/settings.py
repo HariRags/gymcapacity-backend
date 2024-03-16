@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'gym_app',
-    'customuser',
+   
     'corsheaders',
 ]
 
@@ -130,6 +130,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'customuser.CustomUser'  
+AUTH_USER_MODEL = 'auth.User'
+
 
 CSRF_TRUSTED_ORIGINS=["http://127.0.0.1:8000"]

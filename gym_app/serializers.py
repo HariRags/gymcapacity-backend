@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import UserProfile, Feedback
+from django.contrib.auth.models import User
 
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
