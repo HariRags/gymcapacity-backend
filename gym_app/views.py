@@ -3,7 +3,9 @@ from rest_framework.response import Response
 from .models import UserProfile, Feedback
 from .serializers import UserProfileSerializer, FeedbackSerializer
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
 from rest_framework import status
+from django.utils import timezone
 
 @api_view(['POST'])
 def register_view(request):
@@ -11,15 +13,34 @@ def register_view(request):
         username = request.data.get('username')
         password = request.data.get('password')
 
-        user, created = User.objects.get_or_create(username=username)
-        if created:
-            user.set_password(password)
-            user.save()
-            user_profile = UserProfile.objects.create(user=user)
-            serializer = UserProfileSerializer(user_profile)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        # Check if user already exists
+        user = User.objects.filter(username=username).first()
+
+        if user is not None:
+            # User already exists, authenticate
+            user = authenticate(username=username, password=password)
+
+            if user is not None:
+                # If authentication is successful, update timestamp in UserProfile
+                user.userprofile.timestamp = timezone.now()
+                user.userprofile.save()
+
+                
+                return Response({"message": "Timestamp updated successfully"}, status=status.HTTP_200_OK)
+            else:
+                # If authentication fails, return error response
+                return Response({"error": "Authentication failed check username and password"}, status=status.HTTP_401_UNAUTHORIZED)
         else:
-            return Response({"error": "User already exists"}, status=status.HTTP_400_BAD_REQUEST)
+            # User does not exist, create new user and UserProfile
+            user = User.objects.create_user(username=username, password=password)
+
+            # Create UserProfile for the new user
+            UserProfile.objects.create(user=user, timestamp=timezone.now())
+
+            
+            return Response({"message": "User created successfully"}, status=status.HTTP_201_CREATED)
+
+
 
 @api_view(['GET'])
 def list_view(request):
@@ -42,7 +63,7 @@ def delete_view(request, id):
         if user.check_password(password):
             user.userprofile.timestamp = None
             user.userprofile.save()
-            return Response(status=status.HTTP_204_NO_CONTENT)
+            return Response({"message":"timestamp set to null"},status=status.HTTP_204_NO_CONTENT)
         else:
             return Response({"error": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
 

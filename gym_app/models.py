@@ -13,7 +13,7 @@ class Feedback(models.Model):
     name = models.CharField(max_length=255,)
     roll = models.CharField(max_length=20,unique=True)
     description = models.TextField()
-    feedback_type = models.CharField(max_length=20, choices=[('suggestion', 'Suggestion'), ('complaint', 'Complaint')], default='suggestion')
+    feedback_type = models.CharField(max_length=20, choices=[('suggestion', 'Suggestion'), ('complaint', 'Complaint'),('appreciation','Appreciation'),('others','Others')], default='suggestion')
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
