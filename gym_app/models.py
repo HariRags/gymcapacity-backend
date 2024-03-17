@@ -5,6 +5,7 @@ from django.utils import timezone
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True,null=True, blank=True)
+    recently_deleted_timestamp = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return self.user.username
