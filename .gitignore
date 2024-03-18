@@ -1,0 +1,14 @@
+# Ignore IDE/Editor files
+vscode/
+
+# Ignore programming language or framework-specific files
+*.pyc
+__pycache__/
+
+# Ignore database files
+*.sqlite3
+
+
+# Ignore virtual environment files
+venv/
+myworld/
