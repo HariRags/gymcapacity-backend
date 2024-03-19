@@ -8,7 +8,9 @@ __pycache__/
 # Ignore database files
 *.sqlite3
 
-
 # Ignore virtual environment files
 venv/
 myworld/
+
+# Ignore Django migrations
+gym_app/migrations/

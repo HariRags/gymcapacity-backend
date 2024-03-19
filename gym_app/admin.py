@@ -4,7 +4,7 @@ from .models import UserProfile, Feedback,User
 # Register UserProfile model with admin site
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'timestamp')
+    list_display = ('user', 'timestamp','recently_deleted_timestamp')
     search_fields = ('user__username',)
     list_filter = ('timestamp',)
 
@@ -16,5 +16,6 @@ class FeedbackAdmin(admin.ModelAdmin):
     list_filter = ('feedback_type', 'timestamp')
 
 # Register User model with admin site
-admin.site.unregister(User)  # Unregister the default User model
-admin.site.register(User)  # Register the default User model 
+admin.site.unregister(User)
+admin.site.register(User)  
+
